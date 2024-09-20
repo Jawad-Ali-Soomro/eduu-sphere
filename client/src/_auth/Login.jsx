@@ -1,8 +1,8 @@
 import { useState } from "react";
 import "../_styles/login.scss";
 import { BiLogoGithub, BiLogoGoogle } from "react-icons/bi";
-import { BsEye, BsEyeSlash, BsTwitter } from "react-icons/bs";
 import { FiEye, FiEyeOff } from "react-icons/fi";
+import { BsTwitter } from "react-icons/bs";
 
 const Login = () => {
   const [loginFormData, setLoginFormData] = useState({
@@ -20,20 +20,19 @@ const Login = () => {
 
   const [showPassword, setShowPassword] = useState(false);
 
-  console.log(loginFormData);
-
   return (
     <div className="form-container flex">
+      <div className="banner-img flex">
+        <img src="/login-banner.webp" alt="" />
+      </div>
       <div className="form-wrapper flex col">
-        <img src="/logo.png" className="logo" alt="" />
+        <img src="/logo.png" className="logo" alt="logo" />
         <div className="input-container flex col">
           <div
             className="input-wrap border flex col"
             style={{
               border: `${
-                loginFormData?.email
-                  ? "1.3px solid royalblue"
-                  : "1.3px solid red"
+                loginFormData?.email ? "1.3px solid #333" : "1.3px solid red"
               }`,
             }}
           >
@@ -50,9 +49,7 @@ const Login = () => {
             className="input-wrap border flex col"
             style={{
               border: `${
-                loginFormData?.password
-                  ? "1.3px solid royalblue"
-                  : "1.3px solid red"
+                loginFormData?.password ? "1.3px solid #333" : "1.3px solid red"
               }`,
             }}
           >
@@ -77,7 +74,7 @@ const Login = () => {
               background: `${
                 !loginFormData?.email || !loginFormData?.password
                   ? "gray"
-                  : "royalblue"
+                  : "#333"
               }`,
             }}
             disabled={!loginFormData?.email || !loginFormData?.password}
@@ -100,7 +97,6 @@ const Login = () => {
             </div>
           </div>
         </div>
-        <img src="/login-banner.png" className="banner-img" alt="" />
       </div>
     </div>
   );
