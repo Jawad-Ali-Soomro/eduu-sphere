@@ -77,25 +77,57 @@ const loginUser = errHanlder(async (req, res) => {
 
 const getUserProfile = errHanlder(async (req, res) => {
   const { loginToken } = req.cookies;
-
   if (!loginToken) {
     return res.status(201).json({
       message: "User Token not found",
     });
   }
-
   try {
-    // Await the token verification
     const verifyToken = await compareToken({ token: loginToken });
-
     res.status(200).json({
       data: verifyToken,
     });
   } catch (error) {
-    return res.status(400).json({
+    return res.status(202).json({
       message: "Invalid Token",
     });
   }
 });
 
-module.exports = { createAccount, loginUser, getUserProfile };
+const updateProfile = errHanlder(async (req, res) => {
+  const { usertoFindId } = req.params;
+  const { loginToken } = req.cookies;
+  if (!loginToken) {
+    return res.status(201).json({
+      message: "Login Again!",
+    });
+  } else {
+    const verifyToken = await compareToken({ token: loginToken });
+    if (!verifyToken) {
+      return res.status(202).json({
+        message: "Invalid Token",
+      });
+    }
+    if (verifyToken.data._id !== usertoFindId) {
+      return res.status(202).json({
+        message: "Invalid User Id",
+      });
+    } else {
+      const { name, email, password } = req.body;
+      const findAccount = await User.findOneAndUpdate(
+        { _id: usertoFindId },
+        { name, email, password }
+      );
+      await findAccount.save();
+      const userUpdated = await User.findById(findAccount?._id);
+      const generatedToken = await generateToken({ data: userUpdated });
+      return res.cookie("loginToken", generatedToken).status(200).json({
+        message: "Profile Updated!",
+        token: generatedToken,
+        data: userUpdated,
+      });
+    }
+  }
+});
+
+module.exports = { createAccount, loginUser, getUserProfile, updateProfile };
