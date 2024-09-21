@@ -30,15 +30,6 @@ const userSchema = new mongoose.Schema(
       default: "",
     },
     phoneNumber: String,
-    isEmailVerified: {
-      type: Boolean,
-      default: false,
-    },
-    emailVerificationToken: String,
-    isFirstTimeLogin: {
-      type: Boolean,
-      default: true,
-    },
     chatGroups: [
       {
         type: mongoose.Schema.Types.ObjectId,

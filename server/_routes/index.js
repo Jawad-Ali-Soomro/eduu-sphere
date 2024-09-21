@@ -1,1 +1,0 @@
-exports.userRoute = require("./userRoute");
