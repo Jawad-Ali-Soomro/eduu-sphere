@@ -22,7 +22,13 @@ const StudentSidebar = () => {
         >
           <FiHome className="icon" />
         </li>
-        <li className="flex">
+        <li
+          className="flex"
+          style={{
+            background: `${location == "/explore/courses" ? "white" : ""}`,
+          }}
+          onClick={() => navigate("/explore/courses")}
+        >
           <FiBook className="icon" />
         </li>
         <li className="flex">

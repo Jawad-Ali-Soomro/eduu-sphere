@@ -9,6 +9,7 @@ import User from "./_pages/User";
 import axios from "axios";
 import { apiUser } from "./_global/apiRoutes";
 import { useEffect, useState } from "react";
+import { Courses } from "./_pages";
 
 function App() {
   const authToken = window.localStorage.getItem("authToken");
@@ -27,7 +28,6 @@ function App() {
       setUser(apiResponse.data.data);
     } catch (error) {
       console.error("Error fetching user profile:", error);
-      // If error occurs, user will not be set and they will be redirected to login
     }
   };
 
@@ -36,8 +36,6 @@ function App() {
       getUserProfile();
     }
   }, [authToken]);
-
-  // Function to render component based on user role
   const renderComponentByRole = () => {
     switch (user?.role) {
       case "admin":
@@ -47,7 +45,7 @@ function App() {
       case "student":
         return <User user={user} />;
       default:
-        return <Navigate to="/login" />; // Redirect to login if the role is undefined
+        return <Navigate to="/login" />;
     }
   };
 
@@ -59,29 +57,32 @@ function App() {
       {authToken && user && user.role === "teacher" && <TeacherSidebar />}
 
       <Routes>
-        {/* Root path - render based on role or redirect to login */}
         <Route
           path="/"
           element={
             authToken ? (
               user ? (
-                renderComponentByRole() // Render the correct component based on role
+                renderComponentByRole()
               ) : (
-                // If user is not yet fetched, we can show a loading spinner or empty element
                 this
               )
             ) : (
-              <Navigate to="/login" /> // Redirect to login if no auth token
+              <Navigate to="/login" />
             )
           }
         />
-
-        {/* Login and register routes */}
         <Route
           path="/login"
           element={authToken ? <Navigate to={"/"} /> : <Login />}
         />
-        <Route path="/register" element={<Register />} />
+        <Route
+          path="/register"
+          element={authToken ? <Navigate to={"/"} /> : <Register />}
+        />
+        <Route
+          path="/explore/courses"
+          element={authToken ? <Courses /> : <NotFound />}
+        />
       </Routes>
     </BrowserRouter>
   );

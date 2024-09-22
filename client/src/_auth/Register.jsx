@@ -3,10 +3,14 @@ import "../_styles/login.scss";
 import { BsTwitterX } from "react-icons/bs";
 import { FaGithub, FaGoogle } from "react-icons/fa6";
 import { useNavigate } from "react-router-dom";
+import { MdVisibility, MdVisibilityOff } from "react-icons/md";
+import axios from "axios";
+import { apiUser } from "../_global/apiRoutes";
 
 const Register = () => {
   const navigate = useNavigate();
   const [formStep, setFormStep] = useState(1);
+  const [showPassword, setShowPassword] = useState();
   useEffect(() => {
     const interval = setInterval(() => {
       setFormStep((prevStep) => {
@@ -19,6 +23,42 @@ const Register = () => {
     return () => clearInterval(interval);
   }, []);
 
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    password: "",
+  });
+  const [errMessage, setErrMessage] = useState();
+
+  const handleChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  const handleRegister = async () => {
+    if (!formData.name || !formData?.email || !formData?.password) {
+      setErrMessage("Fill All The Fields!");
+    }
+    const apiResponse = await axios.post(`${apiUser}/create`, {
+      name: formData.name,
+      email: formData.email,
+      password: formData.password,
+    });
+    console.log(apiResponse);
+    apiResponse.status === 204
+      ? setErrMessage("Invalid Password")
+      : apiResponse.status === 203
+      ? setErrMessage("Invalid Email Address")
+      : apiResponse.status === 202
+      ? setErrMessage("Error During Account Creation")
+      : apiResponse.status === 201
+      ? setErrMessage("Account Already Exists")
+      : setErrMessage("");
+    apiResponse.status === 200
+      ? window.localStorage.setItem("authToken", apiResponse.data.token) +
+        navigate("/")
+      : this;
+  };
+
   return (
     <div
       className="form-container flex"
@@ -29,17 +69,54 @@ const Register = () => {
         <h1>Get Started</h1>
         <div className="inputs-main flex col">
           <div className="input-wrap flex">
-            <input type="text" placeholder="Username" />
+            <input
+              type="text"
+              name="name"
+              placeholder="Username"
+              value={formData.name}
+              onChange={handleChange}
+            />
           </div>
           <div className="input-wrap flex">
-            <input type="text" placeholder="Email Address" />
+            <input
+              type="text"
+              name="email"
+              placeholder="Email Address"
+              value={formData.email}
+              onChange={handleChange}
+            />
           </div>
           <div className="input-wrap flex">
-            <input type="text" placeholder="Password" />
+            <input
+              type={`${showPassword ? "text" : "password"}`}
+              placeholder="Password"
+              name="password"
+              value={formData?.password}
+              onChange={handleChange}
+            />
+            <div
+              className="show-hide-pass flex"
+              onClick={() => setShowPassword(!showPassword)}
+            >
+              {showPassword ? (
+                <MdVisibility className="icon" />
+              ) : (
+                <MdVisibilityOff className="icon" />
+              )}
+            </div>
           </div>
         </div>
-        <a href="/">Provacy Policy?</a>
-        <button className="login-btn">REGISTER</button>
+        {errMessage ? (
+          <div className="err-message flex">
+            <p>{errMessage}</p>
+          </div>
+        ) : (
+          this
+        )}
+        <a href="/">Privacy Policy?</a>
+        <button className="login-btn" onClick={handleRegister}>
+          REGISTER
+        </button>
         <div className="or-text flex">
           <p>OR</p>
         </div>
