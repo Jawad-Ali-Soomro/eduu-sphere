@@ -1,8 +1,9 @@
 import { Route } from "react-router-dom";
 import { BrowserRouter } from "react-router-dom";
-import { Dashboard } from "./_pages";
+import { Home } from "./_pages";
 import { Login } from "./_auth";
 import { Routes } from "react-router-dom";
+import Register from "./_auth/Register";
 
 function App() {
   const authToken = window.localStorage.getItem("authToken");
@@ -10,7 +11,8 @@ function App() {
     <>
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={authToken ? <Dashboard /> : <Login />} />
+          <Route path="/" element={authToken ? <Home /> : <Login />} />
+          <Route path={authToken ? "/" : "/register"} element={<Register />} />
         </Routes>
       </BrowserRouter>
     </>

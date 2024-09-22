@@ -1,39 +1,64 @@
 import { useState, useEffect } from "react";
 import "../_styles/login.scss";
-import { BiLogoGoogle } from "react-icons/bi";
-import { BsGoogle, BsTwitter, BsTwitterX } from "react-icons/bs";
+import { BsTwitterX } from "react-icons/bs";
 import { FaGithub, FaGoogle } from "react-icons/fa6";
-
+import { useNavigate } from "react-router-dom";
+import { MdVisibility, MdVisibilityOff } from "react-icons/md";
 const Login = () => {
   const [formStep, setFormStep] = useState(1);
-
+  const navigate = useNavigate();
   useEffect(() => {
     const interval = setInterval(() => {
       setFormStep((prevStep) => {
         if (prevStep === 1) return 2;
-        if (prevStep === 2) return 1;
+        if (prevStep === 2) return 3;
         return 1;
       });
     }, 3000);
 
-    return () => clearInterval(interval); // Cleanup the interval on component unmount
+    return () => clearInterval(interval);
   }, []);
+  const [formData, setFormData] = useState({
+    email: "",
+    password: "",
+  });
+  const handleChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+  const [showPassword, setShowPassword] = useState(false);
+  const [errMessage, setErrMessage] = useState("");
+
+  const handleLogin = async () => {
+    if (!formData.email || !formData?.password) {
+      setErrMessage("Fill All The Fields!");
+    } else {
+      setErrMessage(null);
+    }
+  };
+  console.log(errMessage);
 
   return (
     <div className="form-container flex">
-      {/* <div className="slider-main flex col">
+      <div className="slider-main flex col">
         {formStep === 1 ? (
           <div className="slider flex col" style={{ left: "0px" }}>
-            <img src="/img1.png" alt="" />
+            <img src="/img1.jpg" alt="" />
             <h2>
-              <span>Create</span> Your Own <span>Course!</span>
+              <span>Create</span> Your <span>Course!</span>
             </h2>
           </div>
         ) : formStep === 2 ? (
           <div className="slider flex col" style={{ left: "0px" }}>
-            <img src="/img3.png" alt="" />
+            <img src="/img2.jpg" alt="" />
             <h2>
-              <span>Invite</span> Friends To <span>Join!</span>
+              <span>Invite</span> Friends!
+            </h2>
+          </div>
+        ) : formStep === 3 ? (
+          <div className="slider flex col" style={{ left: "0px" }}>
+            <img src="/img3.jpg" alt="" />
+            <h2>
+              <span>Manage</span> Your <span>Profile!</span>
             </h2>
           </div>
         ) : null}
@@ -53,21 +78,60 @@ const Login = () => {
               background: `${formStep === 2 ? "#333" : ""}`,
             }}
           ></div>
+
+          <div
+            className="step flex"
+            style={{
+              width: `${formStep === 3 ? "30px" : "10px"}`,
+              background: `${formStep === 3 ? "#333" : ""}`,
+            }}
+          ></div>
         </div>
-      </div> */}
+      </div>
       <div className="form-wrapper flex col">
         <img src="/logo.png" alt="" />
         <h1>Welcome Back</h1>
         <div className="inputs-main flex col">
           <div className="input-wrap flex">
-            <input type="text" placeholder="Email Address" />
+            <input
+              type="text"
+              placeholder="Email Address"
+              name="email"
+              value={formData?.email}
+              onChange={handleChange}
+            />
           </div>
           <div className="input-wrap flex">
-            <input type="text" placeholder="Password" />
+            <input
+              type={`${showPassword ? "text" : "password"}`}
+              placeholder="Password"
+              name="password"
+              value={formData?.password}
+              onChange={handleChange}
+            />
+            <div
+              className="show-hide-pass flex"
+              onClick={() => setShowPassword(!showPassword)}
+            >
+              {showPassword ? (
+                <MdVisibility className="icon" />
+              ) : (
+                <MdVisibilityOff className="icon" />
+              )}
+            </div>
           </div>
         </div>
+        {errMessage ? (
+          <div className="err-message flex">
+            <p>{errMessage}</p>
+          </div>
+        ) : (
+          this
+        )}
         <a href="/">Forgot Password?</a>
-        <button className="login-btn">LOGIN</button>
+        <button className="login-btn" onClick={handleLogin}>
+          LOGIN
+        </button>
         <div className="or-text flex">
           <p>OR</p>
         </div>
@@ -81,7 +145,12 @@ const Login = () => {
           <div className="icon flex">
             <BsTwitterX />
           </div>
-          <button className="register-btn">Register</button>
+          <button
+            className="register-btn"
+            onClick={() => navigate("/register")}
+          >
+            Register
+          </button>
         </div>
       </div>
     </div>

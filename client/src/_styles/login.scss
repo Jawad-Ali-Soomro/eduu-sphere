@@ -1,60 +1,63 @@
 .form-container {
   width: 100%;
   height: 100vh;
-  //   justify-content: space-between !important;
+  justify-content: space-between !important;
   background: white;
-  //   .slider-main {
-  //     width: 50%;
-  //     height: 100%;
-  //     position: relative;
-  //     background: #ff8b6b3a;
-  //     .slider {
-  //       width: 90%;
-  //       height: 80%;
-  //       position: absolute;
-  //       transition: 0.3s;
-  //       left: -100%;
-  //       top: 0;
-  //       margin-left: 5%;
-  //       img {
-  //         width: 70%;
-  //         height: 70%;
-  //         padding: 10%;
-  //         margin-top: 20px;
-  //         top: 0;
-  //         background: rgba($color: white, $alpha: 1);
-  //         border-radius: 50px;
-  //       }
-  //       h2 {
-  //         font-weight: 900;
-  //         font-size: 2rem;
-  //         margin-top: 40px;
-  //         color: rgba($color: #333, $alpha: 0.6);
-  //         span {
-  //           color: #333;
-  //         }
-  //       }
-  //     }
-  //     .step-detector {
-  //       width: 100px;
-  //       height: 10%;
-  //       position: absolute;
-  //       bottom: 50px;
-  //       gap: 10px;
-  //       .step {
-  //         background: #33333343;
-  //         width: 10px;
-  //         height: 10px;
-  //         transition: 0.3s;
-  //         border-radius: 5px;
-  //       }
-  //     }
-  //   }
+  animation: animate 1s linear;
+  .slider-main {
+    width: 50%;
+    height: 100%;
+    position: relative;
+    background: #ff8b6b3a;
+    .slider {
+      width: 90%;
+      height: 80%;
+      position: absolute;
+      transition: 0.3s;
+      left: -100%;
+      top: 0;
+      margin-left: 5%;
+      img {
+        width: 70%;
+        height: 40%;
+        padding: 10%;
+        margin-top: 20px;
+        top: 0;
+        background: rgba($color: white, $alpha: 1);
+        border-radius: 50px;
+      }
+      h2 {
+        font-weight: 900;
+        font-size: 2rem;
+        margin-top: 100px;
+        color: rgba($color: #333, $alpha: 0.6);
+        span {
+          color: #333;
+        }
+      }
+    }
+    .step-detector {
+      width: 100px;
+      height: 10%;
+      position: absolute;
+      bottom: 50px;
+      gap: 10px;
+      .step {
+        background: #33333343;
+        width: 10px;
+        height: 10px;
+        transition: 0.3s;
+        border-radius: 5px;
+        cursor: pointer;
+      }
+    }
+  }
   .form-wrapper {
     width: 350px;
     height: 100vh;
     align-items: center;
     gap: 10px;
+    margin-right: 180px;
     img {
       width: 150px;
     }
@@ -69,6 +72,7 @@
         height: 50px;
         background: #eeeeee92;
         border-radius: 25px;
+        position: relative;
         input {
           width: calc(100% - 20px);
           height: 100%;
@@ -77,6 +81,30 @@
           outline: none;
           padding-left: 20px;
         }
+        .show-hide-pass {
+          width: 40px;
+          height: 40px;
+          border-radius: 50%;
+          cursor: pointer;
+          position: absolute;
+          right: -50px;
+          .icon {
+            transition: 0.3s;
+          }
+        }
+      }
+    }
+    .err-message {
+      width: 350px;
+      justify-content: end;
+      color: red;
+      p {
+        font-size: 0.6rem;
+        font-weight: 600;
+        text-transform: uppercase;
+        padding: 5px 20px;
+        border: 1px solid;
+        border-radius: 15px;
       }
     }
     .login-btn {
@@ -158,5 +186,31 @@
         border: 1px solid;
       }
     }
+  }
+}
+
+@keyframes animate {
+  from {
+    transform: translateX(-100%);
+  }
+  to {
+    transform: translateX(0%);
+  }
+}
+
+@keyframes animate2 {
+  from {
+    transform: translateX(100%);
+  }
+  to {
+    transform: translateX(0%);
+  }
+}
+
+@media (max-width: 800px) {
+  .slider-main {
+    max-width: 0;
+    max-height: 0;
+    overflow: hidden;
   }
 }
