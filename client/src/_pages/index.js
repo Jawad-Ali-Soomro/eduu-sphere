@@ -1,4 +1,5 @@
-import Dashboard from "./Dashboard";
-import Home from "./Home";
+import Admin from "./Admin";
+import Teacher from "./Teacher";
+import User from "./User";
 
-export { Dashboard, Home };
+export { User, Admin, Teacher };

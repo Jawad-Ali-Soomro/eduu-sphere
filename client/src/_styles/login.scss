@@ -3,7 +3,7 @@
   height: 100vh;
   justify-content: space-between !important;
   background: white;
-  animation: animate 1s linear;
+  animation: animate-login 1s linear;
   .slider-main {
     width: 50%;
     height: 100%;
@@ -102,9 +102,10 @@
         font-size: 0.6rem;
         font-weight: 600;
         text-transform: uppercase;
-        padding: 5px 20px;
-        border: 1px solid;
-        border-radius: 15px;
+        padding: 10px 30px;
+        background: red;
+        color: white;
+        border-radius: 20px;
       }
     }
     .login-btn {
@@ -189,7 +190,7 @@
   }
 }
 
-@keyframes animate {
+@keyframes animate-login {
   from {
     transform: translateX(-100%);
   }

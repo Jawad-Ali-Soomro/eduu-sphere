@@ -4,6 +4,8 @@ import { BsTwitterX } from "react-icons/bs";
 import { FaGithub, FaGoogle } from "react-icons/fa6";
 import { useNavigate } from "react-router-dom";
 import { MdVisibility, MdVisibilityOff } from "react-icons/md";
+import axios from "axios";
+import { apiUser } from "../_global/apiRoutes";
 const Login = () => {
   const [formStep, setFormStep] = useState(1);
   const navigate = useNavigate();
@@ -27,15 +29,36 @@ const Login = () => {
   };
   const [showPassword, setShowPassword] = useState(false);
   const [errMessage, setErrMessage] = useState("");
-
   const handleLogin = async () => {
     if (!formData.email || !formData?.password) {
       setErrMessage("Fill All The Fields!");
     } else {
-      setErrMessage(null);
+      try {
+        const apiResponse = await axios.post(`${apiUser}/login`, {
+          email: formData.email,
+          password: formData.password,
+        });
+        console.log(apiResponse.data.token);
+
+        apiResponse.status === 204
+          ? setErrMessage("Invalid Password")
+          : apiResponse.status === 203
+          ? setErrMessage("Invalid Email Address")
+          : apiResponse.status === 202
+          ? setErrMessage("Incorrect Password")
+          : apiResponse.status === 201
+          ? setErrMessage("Account Not Found")
+          : setErrMessage("");
+        apiResponse.status === 200
+          ? window.localStorage.setItem("authToken", apiResponse.data.token) +
+            window.location.reload()
+          : this;
+      } catch (error) {
+        console.error("Login failed", error);
+        setErrMessage("An error occurred. Please try again.");
+      }
     }
   };
-  console.log(errMessage);
 
   return (
     <div className="form-container flex">
