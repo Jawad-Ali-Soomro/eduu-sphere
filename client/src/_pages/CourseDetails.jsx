@@ -1,13 +1,15 @@
 import axios from "axios";
 import { useParams } from "react-router-dom";
-import { apiCourse } from "../_global/apiRoutes"; // removed apiUser
+import { apiCourse } from "../_global/apiRoutes";
 import { useEffect, useState } from "react";
 import "../_styles/maincourse.scss";
+import { FaAngleDown } from "react-icons/fa";
 
 const CourseDetails = () => {
   const { courseId } = useParams();
   const [courseDetails, setDetails] = useState(null);
   const [isEnrolled, setIsEnrolled] = useState(false);
+  const [visibleLesson, setVisibleLesson] = useState(null);
 
   const getCourseDetails = async () => {
     try {
@@ -58,6 +60,10 @@ const CourseDetails = () => {
     }
   };
 
+  const toggleLessonContent = (lessonId) => {
+    setVisibleLesson((prev) => (prev === lessonId ? null : lessonId));
+  };
+
   return (
     <div className="main-course-detail flex">
       <div className="top-banner flex col">
@@ -101,7 +107,25 @@ const CourseDetails = () => {
           </button>
         </div>
       </div>
-      <div className="course-details flex col"></div>
+      <div className="course-details flex col">
+        {courseDetails?.lessons?.map((lesson) => {
+          const isVisible = visibleLesson === lesson?._id;
+          return (
+            <div className="card flex col" key={lesson?._id}>
+              <div
+                className="top-card flex"
+                onClick={() => toggleLessonContent(lesson?._id)}
+              >
+                <h3>{lesson?.title}</h3>
+                <FaAngleDown />
+              </div>
+              <div className={`content flex col ${isVisible ? "visible" : ""}`}>
+                <p>{lesson?.content}</p>
+              </div>
+            </div>
+          );
+        })}
+      </div>
     </div>
   );
 };
