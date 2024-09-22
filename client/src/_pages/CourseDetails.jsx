@@ -3,7 +3,7 @@ import { useParams } from "react-router-dom";
 import { apiCourse } from "../_global/apiRoutes";
 import { useEffect, useState } from "react";
 import "../_styles/maincourse.scss";
-import { FaAngleDown } from "react-icons/fa";
+import { FaAngleDown, FaAngleUp } from "react-icons/fa";
 
 const CourseDetails = () => {
   const { courseId } = useParams();
@@ -117,7 +117,7 @@ const CourseDetails = () => {
                 onClick={() => toggleLessonContent(lesson?._id)}
               >
                 <h3>{lesson?.title}</h3>
-                <FaAngleDown />
+                {isVisible ? <FaAngleUp /> : <FaAngleDown />}
               </div>
               <div className={`content flex col ${isVisible ? "visible" : ""}`}>
                 <p>{lesson?.content}</p>

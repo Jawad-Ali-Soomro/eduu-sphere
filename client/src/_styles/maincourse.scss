@@ -100,9 +100,11 @@
     align-items: start;
     margin-left: 2%;
     gap: 10px;
+    padding-bottom: 50px;
+    padding-top: 50px;
     .card {
-      width: 500px;
-      border: 1px solid #80808090;
+      width: 600px;
+      background: #eee;
       padding: 5px;
       .top-card {
         width: calc(100% - 40px);
