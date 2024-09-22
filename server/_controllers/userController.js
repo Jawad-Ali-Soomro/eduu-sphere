@@ -46,7 +46,7 @@ const loginUser = errHanlder(async (req, res) => {
     });
   }
   if (!isValidPassword(password)) {
-    return res.status(400).json({
+    return res.status(204).json({
       message: "Password must be greater than 6 characters.",
     });
   }
@@ -76,19 +76,21 @@ const loginUser = errHanlder(async (req, res) => {
 });
 
 const getUserProfile = errHanlder(async (req, res) => {
-  const { loginToken } = req.cookies;
-  if (!loginToken) {
-    return res.status(201).json({
+  const token = req.headers.authorization?.split(" ")[1];
+
+  if (!token) {
+    return res.status(401).json({
       message: "User Token not found",
     });
   }
+
   try {
-    const verifyToken = await compareToken({ token: loginToken });
+    const verifyToken = await compareToken({ token });
     res.status(200).json({
-      data: verifyToken,
+      data: verifyToken.data, // Return user data
     });
   } catch (error) {
-    return res.status(202).json({
+    return res.status(403).json({
       message: "Invalid Token",
     });
   }
