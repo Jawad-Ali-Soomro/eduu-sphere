@@ -4,6 +4,7 @@ import { apiCourse } from "../_global/apiRoutes";
 import { useEffect, useState } from "react";
 import "../_styles/maincourse.scss";
 import { FaAngleDown, FaAngleUp } from "react-icons/fa";
+import { BiBookOpen, BiPlay, BiVideo } from "react-icons/bi";
 
 const CourseDetails = () => {
   const { courseId } = useParams();
@@ -108,7 +109,7 @@ const CourseDetails = () => {
         </div>
       </div>
       <div className="course-details flex col">
-        {courseDetails?.lessons?.map((lesson) => {
+        {courseDetails?.lessons?.map((lesson, index) => {
           const isVisible = visibleLesson === lesson?._id;
           return (
             <div className="card flex col" key={lesson?._id}>
@@ -116,11 +117,32 @@ const CourseDetails = () => {
                 className="top-card flex"
                 onClick={() => toggleLessonContent(lesson?._id)}
               >
-                <h3>{lesson?.title}</h3>
-                {isVisible ? <FaAngleUp /> : <FaAngleDown />}
+                <h3>
+                  {index + 1}. {lesson?.title}
+                </h3>
+                {isVisible ? (
+                  <FaAngleUp className="angle" />
+                ) : (
+                  <FaAngleDown className="angle" />
+                )}
               </div>
               <div className={`content flex col ${isVisible ? "visible" : ""}`}>
-                <p>{lesson?.content}</p>
+                <p>
+                  {/* {lesson?.content?.split(".").map((sentence, index) => (
+                    <span key={index}>
+                      {sentence.trim()}.<br />
+                    </span>
+                  ))} */}
+                  {lesson?.content}
+                </p>
+                <div className="icons flex" style={{ gap: "10px" }}>
+                  {lesson.videoUrl ? <BiPlay className="icon" /> : null}
+                  {lesson.videoUrl ? (
+                    <div className="duration flex">
+                      <BiBookOpen className="icon" /> <p>{lesson?.duration}</p>
+                    </div>
+                  ) : null}
+                </div>
               </div>
             </div>
           );
