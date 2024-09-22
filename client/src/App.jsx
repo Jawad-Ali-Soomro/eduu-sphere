@@ -9,7 +9,7 @@ import User from "./_pages/User";
 import axios from "axios";
 import { apiUser } from "./_global/apiRoutes";
 import { useEffect, useState } from "react";
-import { Courses } from "./_pages";
+import { CourseDetails, Courses } from "./_pages";
 
 function App() {
   const authToken = window.localStorage.getItem("authToken");
@@ -36,6 +36,7 @@ function App() {
       getUserProfile();
     }
   }, [authToken]);
+  window.localStorage.setItem("userId", user?._id);
   const renderComponentByRole = () => {
     switch (user?.role) {
       case "admin":
@@ -78,6 +79,10 @@ function App() {
         <Route
           path="/register"
           element={authToken ? <Navigate to={"/"} /> : <Register />}
+        />
+        <Route
+          path="/course/:courseId"
+          element={authToken ? <CourseDetails /> : <NotFound />}
         />
         <Route
           path="/explore/courses"

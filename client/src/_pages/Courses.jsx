@@ -1,49 +1,43 @@
-import ReactStars from "react-stars";
 import "../_styles/courses.scss";
+import { useState } from "react";
+import axios from "axios";
+import { apiCourse } from "../_global/apiRoutes";
+import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import { BiSearch } from "react-icons/bi";
 
 const Courses = () => {
-  const courseData = [
-    {
-      name: "The Ultimate Javascript",
-      image: "https://img-c.udemycdn.com/course/240x135/851712_fc61_6.jpg",
-      instructor: "Jons",
-      stars: 5,
-      price: 10,
-      progress: 30,
-    },
-    {
-      name: "The Ultimate React",
-      image: "https://img-c.udemycdn.com/course/240x135/4471614_361e_8.jpg",
-      instructor: "Jons",
-      stars: 3.5,
-      price: 10,
-      progress: 70,
-    },
-    {
-      name: "[NEW] Spring Boot",
-      image: "https://img-c.udemycdn.com/course/240x135/647428_be28_10.jpg",
-      instructor: "Jons",
-      stars: 4,
-      price: 10,
-    },
-    {
-      name: "[NEW] Spring Boot",
-      image: "https://img-c.udemycdn.com/course/240x135/647428_be28_10.jpg",
-      instructor: "Jons",
-      stars: 4,
-      price: 10,
-    },
-  ];
+  const [courseData, setData] = useState();
+  const navigate = useNavigate();
+  const getCourses = async () => {
+    const apiResponse = await axios.get(`${apiCourse}/get/all`);
+    setData(apiResponse.data.data);
+  };
+  useEffect(() => {
+    getCourses();
+  });
+
   return (
     <div className="courses-wrap flex col">
+      <div className="search-bar flex">
+        <BiSearch />
+        <input type="text" placeholder="Search Courses!" />
+      </div>
       <div className="wrapper flex">
         {courseData?.map((course) => {
           return (
-            <div className="card flex col" key={course?.name}>
-              <img src={course?.image} alt="" />
-              <h2>{course?.name}</h2>
-              <p>{course?.instructor}</p>
-              <ReactStars value={course?.stars} />
+            <div
+              className="card flex col"
+              key={course?.name}
+              onClick={() => navigate(`/course/${course?._id}`)}
+            >
+              <img src={course?.thumbnail} alt="" />
+              <h2>{course?.title.substring(0, 25)}...</h2>
+              <p>{course?.instructor?.name}</p>
+              <div className="level flex">
+                <h5>{course?.level}</h5>
+                <p>${course?.price}</p>
+              </div>
               <button>ENROLL</button>
             </div>
           );

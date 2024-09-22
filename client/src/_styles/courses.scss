@@ -1,16 +1,32 @@
 .courses-wrap {
   width: calc(100% - 100px);
-  height: 96vh;
+  height: 94vh;
   margin-top: 2vh;
   margin-left: 60px;
   background: white;
   padding-left: 20px;
   border-radius: 20px;
+  padding-bottom: 2vh;
   animation: animate-course 1s linear;
   display: flex;
   align-items: start !important;
-  h1 {
-    padding-left: 80px;
+  .search-bar {
+    margin-bottom: 20px;
+    width: 300px;
+    height: 40px;
+    margin-top: 20px;
+    border: 1px solid #80808090;
+    border-radius: 10px;
+    margin-left: 20px;
+    input {
+      width: 250px;
+      padding-left: 10px;
+      height: 100%;
+      border: none;
+      outline: none;
+      font-size: 0.7rem;
+      font-weight: 600;
+    }
   }
   .wrapper {
     width: 95%;
@@ -41,6 +57,21 @@
         font-weight: 600;
         font-size: 0.8rem;
         color: rgba($color: #000000, $alpha: 0.5);
+      }
+      .level {
+        font-size: 0.6rem;
+        justify-content: space-between;
+        width: 220px;
+        border-radius: 20px;
+        font-weight: 600;
+        text-transform: uppercase;
+        h5 {
+          padding: 8px 20px;
+          background: indigo;
+          border-radius: 15px;
+          color: white;
+          border: 1px solid transparent;
+        }
       }
       button {
         width: 120px;
