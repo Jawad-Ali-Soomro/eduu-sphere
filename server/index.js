@@ -1,22 +1,17 @@
 const express = require("express");
-const connectDatabase = require("./_config/connect");
-const server = require("./server");
-const app = express();
+const http = require("http");
+const connectDB = require("./_config/connection");
 require("dotenv").config({
   path: "./_config/.env",
 });
-const port = process.env.SERVER_PORT;
-const cors = require("cors");
-const cookieParser = require("cookie-parser");
+const app = express();
+const server = http.createServer(app);
 
-// connecting middlewares
-connectDatabase();
+// connecting database & applying middlewares
 app.use(express.json());
-app.use(cors());
-app.use(cookieParser());
-app.use(express.urlencoded({ extended: true }));
-app.use("/api/v1", server);
+app.use(express.urlencoded({ extended: false }));
+connectDB();
 
-app.listen(port || 4000, () => {
-  console.log("server for eduusphere is running!");
+server.listen(process.env.PORT || 4000, () => {
+  console.log(`server running on port ${process.env.PORT || 4000}`);
 });

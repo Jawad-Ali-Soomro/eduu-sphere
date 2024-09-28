@@ -1,1 +1,2 @@
-exports.errHanlder = require("./errHandler");
+exports.hashPassword = require("./hashPassword");
+exports.comparePassword = require("./comparePassword");
