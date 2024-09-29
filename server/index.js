@@ -1,16 +1,23 @@
 const express = require("express");
 const http = require("http");
 const connectDB = require("./_config/connection");
+const { userRoute } = require("./_routes");
 require("dotenv").config({
   path: "./_config/.env",
 });
 const app = express();
 const server = http.createServer(app);
+const cors = require("cors");
 
 // connecting database & applying middlewares
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 connectDB();
+app.use(cors());
+
+// using routes
+
+app.use("/api/user", userRoute);
 
 server.listen(process.env.PORT || 4000, () => {
   console.log(`server running on port ${process.env.PORT || 4000}`);

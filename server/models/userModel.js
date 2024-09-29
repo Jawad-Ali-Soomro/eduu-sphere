@@ -12,6 +12,7 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: [true, "please enter password"],
     min: [6, "Your password shouldn't be less than 6 characters"],
+    select: false,
   },
   avatar: {
     type: String,
@@ -40,5 +41,4 @@ const userSchema = new mongoose.Schema({
   ],
 });
 
-const User = mongoose.Model("User", userSchema);
-module.exports = User;
+module.exports = mongoose.model("User", userSchema);
