@@ -8,12 +8,12 @@ import { userEndPoint } from "../_utils/endPoints";
 
 const Register = () => {
   const navigate = useNavigate();
+  const [errMessage, setErrMessage] = useState();
   const [registerData, setData] = useState({
     username: "",
     email: "",
     password: "",
   });
-  console.log(registerData);
   const handleChange = (e) => {
     const { name, value } = e.target;
     setData((prev) => ({
@@ -23,12 +23,33 @@ const Register = () => {
   };
 
   const handleReister = async () => {
-    const response = await axios.post(`${userEndPoint}/create`, {
-      username: registerData.username,
-      email: registerData.email,
-      password: registerData.password,
-    });
-    console.log(response);
+    if (
+      !registerData.username ||
+      !registerData.email ||
+      !registerData.password
+    ) {
+      return setErrMessage("All Fields Are Required!");
+    } else if (registerData.password.length < 6) {
+      return setErrMessage("Your password needs to be Six characters or more");
+    } else {
+      const response = await axios.post(`${userEndPoint}/create`, {
+        username: registerData.username,
+        email: registerData.email,
+        password: registerData.password,
+      });
+      console.log(response.data.token);
+
+      if (response.status === 201) {
+        setErrMessage("Account Exists Already!");
+      } else if (response.status === 200) {
+        window.localStorage.setItem(
+          "_eduusphere_auth_token",
+          response.data.token
+        );
+        navigate("/");
+        window.location.reload();
+      }
+    }
   };
 
   return (
@@ -67,7 +88,13 @@ const Register = () => {
               onChange={handleChange}
             />
           </div>
-
+          {errMessage ? (
+            <div className="err-message">
+              <p>{errMessage}</p>
+            </div>
+          ) : (
+            this
+          )}
           <button
             className="btn-login flex"
             style={{ marginTop: "20px" }}

@@ -3,6 +3,10 @@
   padding: 0;
 }
 
+body {
+  background: #eeeeee77;
+}
+
 .btn-small {
   width: 120px;
   background: #333;
