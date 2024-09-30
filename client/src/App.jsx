@@ -27,9 +27,7 @@ function App() {
     }
   };
 
-  useEffect(() => {
-    sendingRequest();
-  }, [userInfo]);
+  authToken ? sendingRequest() : this;
 
   return (
     <>
