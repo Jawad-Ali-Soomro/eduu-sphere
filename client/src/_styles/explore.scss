@@ -1,0 +1,69 @@
+.main-explore {
+  width: calc(100% - 120px);
+  height: 85vh;
+  position: absolute;
+  bottom: 5vh;
+  right: 0;
+  z-index: 0;
+  margin-top: 20vh !important;
+  align-items: start !important;
+  justify-content: start !important;
+
+  .main-courses {
+    flex-wrap: wrap;
+    gap: 30px;
+    max-height: 100%;
+    overflow: scroll;
+    align-items: start;
+    justify-content: start;
+    .card {
+      width: 260px;
+      height: 320px;
+      border: 1px solid #80808090;
+      align-items: start;
+      padding: 10px;
+      gap: 10px;
+      border-radius: 10px;
+      img {
+        width: 260px;
+        border-radius: 10px;
+      }
+      h2 {
+        font-size: 0.9rem;
+        font-weight: 500;
+        padding-left: 10px;
+      }
+      p {
+        font-weight: 600;
+        font-size: 0.7rem;
+        padding-left: 10px;
+        color: rgba($color: #000000, $alpha: 0.5);
+      }
+      h3 {
+        font-size: 0.8rem;
+        padding-left: 10px;
+      }
+      span {
+        font-size: 0.5rem;
+        padding: 10px 30px;
+        background: indigo;
+        border-radius: 20px;
+        color: white;
+        font-weight: 600;
+        align-self: flex-end;
+      }
+      button {
+        width: 260px;
+        height: 45px;
+        border-radius: 10px;
+        background: royalblue;
+        border: none;
+        text-transform: uppercase;
+        cursor: pointer;
+        color: white;
+        font-size: 0.7rem;
+        font-weight: 600;
+      }
+    }
+  }
+}

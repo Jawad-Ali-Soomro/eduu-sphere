@@ -10,6 +10,7 @@ import { useNavigate } from "react-router-dom";
 const User = ({ userInfo }) => {
   const location = window.location.pathname;
   const navigate = useNavigate();
+
   return (
     <div className="sidebar flex col">
       <div className="top-bar flex">
@@ -27,10 +28,18 @@ const User = ({ userInfo }) => {
         </div>
         <div className="navs flex col">
           <ul className="flex col">
-            <li className="flex" id={location === "/" ? "active" : ""}>
+            <li
+              className="flex"
+              id={location === "/" ? "active" : ""}
+              onClick={() => navigate("/")}
+            >
               <RiDashboardLine className="icon" />
             </li>
-            <li className="flex">
+            <li
+              className="flex"
+              onClick={() => navigate("/explore")}
+              id={location === "/explore" ? "active" : ""}
+            >
               <BiCompass className="icon" />
             </li>
             <li className="flex">
@@ -50,7 +59,11 @@ const User = ({ userInfo }) => {
           />
           <div
             className="btn-logout flex"
-            onClick={() => window.localStorage.clear() + navigate("/")}
+            onClick={() =>
+              window.localStorage.clear() +
+              navigate("/") +
+              window.location.reload()
+            }
           >
             <BiLogOut />
           </div>
