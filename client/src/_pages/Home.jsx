@@ -18,7 +18,7 @@ const Home = ({ userInfo }) => {
             <User userInfo={userInfo} />
           )}
           {userInfo.isAdmin ? (
-            <Dash_Admin />
+            <Dash_Admin userInfo={userInfo} />
           ) : (
             <Dash_User userInfo={userInfo} />
           )}

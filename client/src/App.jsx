@@ -8,6 +8,7 @@ import Explore from "./_pages/Explore";
 import { useState, useEffect } from "react";
 import axios from "axios";
 import { userEndPoint } from "./_utils/endPoints";
+import CourseDetails from "./_pages/CourseDetails";
 
 function App() {
   const authToken = window.localStorage.getItem("_eduusphere_auth_token");
@@ -47,6 +48,12 @@ function App() {
           <Route
             path="/explore"
             element={authToken ? <Explore userInfo={userInfo} /> : <Login />}
+          />
+          <Route
+            path="/course/:id"
+            element={
+              authToken ? <CourseDetails userInfo={userInfo} /> : <Login />
+            }
           />
         </Routes>
       </BrowserRouter>

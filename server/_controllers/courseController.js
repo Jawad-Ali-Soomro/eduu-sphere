@@ -42,4 +42,31 @@ const getAllCourse = async (req, res) => {
   }
 };
 
-module.exports = { createCourse, getAllCourse };
+const getCourseById = async (req, res) => {
+  try {
+    const { courseId } = req.params;
+    if (!courseId) {
+      return res.status(202).json({
+        msg: "No courses found",
+      });
+    }
+    const course = await Course.findById(courseId)
+      .populate("instructor")
+      .populate("lessons");
+    if (!course) {
+      return res.status(202).json({
+        msg: "No courses found",
+      });
+    }
+    return res.status(200).json({
+      course,
+    });
+  } catch (error) {
+    return res.status(500).json({
+      msg: "Error During Getting course Info",
+      error,
+    });
+  }
+};
+
+module.exports = { createCourse, getAllCourse, getCourseById };

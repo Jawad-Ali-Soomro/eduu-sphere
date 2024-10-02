@@ -7,9 +7,11 @@ import "../_styles/explore.scss";
 import axios from "axios";
 import { courseEndPoint } from "../_utils/endPoints";
 import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
 const Explore = ({ userInfo }) => {
   const [courseData, setData] = useState();
+  const navigate = useNavigate();
 
   const fetchUserdata = async () => {
     const response = await axios.get(`${courseEndPoint}/get-all`);
@@ -21,16 +23,23 @@ const Explore = ({ userInfo }) => {
   }, [courseData]);
   return (
     <div>
-      {userInfo?.isAdmin ? <Admin /> : <User userInfo={userInfo} />}
+      {userInfo?.isAdmin ? (
+        <Admin userInfo={userInfo} />
+      ) : (
+        <User userInfo={userInfo} />
+      )}
       <div className="main-explore flex col">
         <div className="main-courses flex">
           {courseData?.map((course) => {
             return (
               <div className="card flex col" key={course?._id}>
-                <img src={course?.thumbnail} alt="" />
+                <img
+                  src={course?.thumbnail}
+                  alt=""
+                  onClick={() => navigate(`/course/${course?._id}`)}
+                />
                 <h2>{course?.title?.substring(0, 25)}...</h2>
                 <p>{course?.instructor?.username}</p>
-
                 <h3>${course?.price}</h3>
                 <span>{course?.category}</span>
                 <button
